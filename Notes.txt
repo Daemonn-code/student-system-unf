@@ -1,0 +1,49 @@
+flask import and rendering template
+    - from flask import Flask, render_template
+    
+
+app = Flask(__name__)
+    - this creates a web app when it points the location
+
+app.run(debug=True)
+    - this lets the web page run on the live server and returns error if there are
+
+flask has template - finds file in the said directories
+    a. /templates/ - .htmls
+    b. /static/ - .css
+
+You can override the file structure
+
+What is __init__.py for?
+
+Override like this:
+    from flask import Flask
+
+    app = Flask(
+        __name__,
+        template_folder="pages",
+        static_folder="assets"
+    )
+
+You can also change the URL path used to access static files:
+    app = Flask(
+        __name__,
+        static_folder="assets",
+        static_url_path="/files"
+    )
+
+Blueprint:
+    students_bp = Blueprint(
+        "students",               : HERE THE "students" IS THE BLUEPRINT name
+        __name__,                 : WHERE THE BLUEPRINT IS LOCATED IN THE SYSTEM
+        template_folder="pages",
+        static_folder="assets"
+    )
+
+Instead of repeating /students:
+    app.register_blueprint(students_bp, url_prefix="/students") : ATTACHES BLUEPRINT IN THE MAIN APP 
+    
+    Now:
+        @students_bp.route("/")
+        def home():
+            return "Students home"
