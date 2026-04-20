@@ -1,0 +1,69 @@
+3 important paremeters for flask.run(host, port, debug)
+    Example: provide both by (host="0.0.0.0", port=5555, debug=True)
+
+When you want to extract the requirements just use:
+    pip3 freeze > requirements.txt
+When you want to get all the requirements:
+    pip3 install -r requirements.txt
+
+Dynamic Processor & Url processor - handle url variables
+    can pass variables using angle brackets '<>'
+    for ex:
+        @app.route("/students/<number1>/<number2>")
+        def add(number1, number2):
+        return f'{number1} + number2 = {number1 + number2}
+    when you want to specify the data type use:
+        <datatype:variable>
+
+Pameters in the URL:
+    from flask import Flask, request
+    @app.route("/handle_url_params')
+    def handle_params():
+        return str(request.args)
+        - when you visit the url, add '?' after the actual name of the page and add parameters '&'
+        when dealing with dictionaries: 
+            you can use: 
+                variable = request.args["greetings"]
+                return f'{variables}'
+        when you want to check if all the inserted parameters:
+            if "key" in request.args.key() and "another_key" in request.args.keys():
+                then return what you want to return HERE
+            else:
+                return what you want to display
+
+METHODS:
+    You use GET when you want to get information
+    You use POST when you want to submit information
+    You use PUT when you want to change something
+    You use DELETE when you want to delete something
+        when you want to validate use:
+            if request.method == "GET" and so ON
+
+What is status code??
+
+
+PART 3 - TEMPLATES AND htmls
+    you can create variables inside the definition and pass it as arguments in render_template("html", html_variable=function_variable)
+    to access variables from the python to html, is by the use of double brackets {{}}
+    Loops inside the html file:
+    <ul>
+        {% for item in mylist %}
+            <li>{{ item }} </li>
+        {% endfor %}    
+    </ul>
+    Same case for conditional statements
+
+You can have your base template of html {block title}
+
+You can create template filter
+
+You can use the function as the url in the html files
+    like let's say the function is named:
+        def other()
+
+        then in the html file you can just declare:
+            <a href="{{ url_for("other") }}">Click here to go to Other</a>
+
+You can also redirect. By importing redirect and url_for
+
+PART 4 - FORM, POST, FILES

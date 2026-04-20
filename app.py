@@ -1,21 +1,31 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import sqlite3
 
 app = Flask(__name__)
 
-print("app.py __name__ =", __name__)
-
-@app.route("/students")
-def students():
-    return render_template("students.html")
+# function to connect to database
+def get_db_connection():
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    return conn
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("home.html")
 
-def run_server():
-    print("Starting Flask server...")
-    app.run(debug=True)
+@app.route("/students", methods=["GET", "POST"])
+def students():
+    conn = get_db_connection()
+
+    if request.method == "POST":
+        name = request.form["name"]
+        conn.execute("INSERT INTO students (name) VALUES (?)", (name,))
+        conn.commit()
+
+    students = conn.execute("SELECT * FROM students").fetchall()
+    conn.close()
+
+    return render_template("students.html", students=students)
 
 if __name__ == "__main__":
-    print("app.py is running directly")
-    run_server()
+    app.run(debug=True)
